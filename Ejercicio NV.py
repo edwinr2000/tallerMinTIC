@@ -39,11 +39,14 @@ dominios_unicos = set(correo.split('@')[-1] for correo in [registro['email'] for
 # Contar la frecuencia de cada dominio
 frecuencia_dominios = {dominio: sum(1 for registro in datos if registro['email'].endswith(dominio)) for dominio in dominios_unicos}
 print(frecuencia_dominios)
-# Crear el gráfico de barras con Plotly
-fig = plot.Figure(data=[plot.Bar(x=list(frecuencia_dominios.keys()), y=list(frecuencia_dominios.values()))])
-fig.update_layout(title='Frecuencia de Dominios de Correo Electrónico',
+# Se realiza el gráfico con la frecuencia de cada dominio.
+figdominios = plot.Figure(data=[plot.Bar(x=list(frecuencia_dominios.keys()), y=list(frecuencia_dominios.values()), marker_color='darkturquoise')])
+figdominios.update_layout(title='Frecuencia de Dominios de Correo Electrónico',
                   xaxis_title='Dominios',
-                  yaxis_title='Cantidad de Veces que aparece el dominio')
+                  yaxis_title='Cantidad de veces que aparece el dominio',
+                  xaxis=dict(type='category'),
+                  yaxis=dict(type='log')
+                  )
 
-# Grafica de frecuencia con la cantidad de correos
-fig.show()
+# Mostrar el gráfico
+figdominios.show()
