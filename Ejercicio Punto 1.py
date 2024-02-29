@@ -2,16 +2,10 @@ import random
 import string
 import plotly.graph_objects as plot
 
-
-# Se crea la función para generar una cadena aleatoria
-def generar_cadena_aleatoria(longitud):
-    letras = string.ascii_lowercase
-    return ''.join(random.choice(letras) for i in range(longitud))
-
 # Se listan los dominios comunes, para generar correos aleatorios con cada dominio
 dominios_correo = ['@outlook.com','@gmail.com', '@hotmail.com', '@live.com','@yahoo.com','@icloud.com','@vivaldi.net','@misena.edu.co','@unal.edu.co']
 
-# Cadena aleatoria, que será el nombre del usuario y el correo.
+# Se crea la función para generar Cadena aleatoria, que será el nombre del usuario y el correo.
 def generar_cadena_aleatoria(longitud):
     letras = string.ascii_lowercase
     return ''.join(random.choice(letras) for i in range(longitud))
