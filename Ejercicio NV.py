@@ -8,17 +8,13 @@ def generar_cadena_aleatoria(longitud):
     letras = string.ascii_lowercase
     return ''.join(random.choice(letras) for i in range(longitud))
 
-# Lista de dominios de correo electrónico
+# Se listan los dominios comunes, para generar correos aleatorios con cada dominio
 dominios_correo = ['@outlook.com','@gmail.com', '@hotmail.com', '@live.com','@yahoo.com']
 
-# Se crea la función para generar un largo aleatorio, que será el largo de la contraseña
+# Cadena aleatoria, que será el nombre del usuario y el correo.
 def generar_cadena_aleatoria(longitud):
     letras = string.ascii_lowercase
     return ''.join(random.choice(letras) for i in range(longitud))
-
-# Lista de dominios de correo electrónico
-dominios_correo = ['@gmail.com', '@hotmail.com', '@live.com']
-
 # Lista para almacenar los datos
 datos = []
 
@@ -42,12 +38,12 @@ dominios_unicos = set(correo.split('@')[-1] for correo in [registro['email'] for
 
 # Contar la frecuencia de cada dominio
 frecuencia_dominios = {dominio: sum(1 for registro in datos if registro['email'].endswith(dominio)) for dominio in dominios_unicos}
-
+print(frecuencia_dominios)
 # Crear el gráfico de barras con Plotly
 fig = plot.Figure(data=[plot.Bar(x=list(frecuencia_dominios.keys()), y=list(frecuencia_dominios.values()))])
 fig.update_layout(title='Frecuencia de Dominios de Correo Electrónico',
                   xaxis_title='Dominios',
                   yaxis_title='Cantidad de Veces que aparece el dominio')
 
-# Mostrar el gráfico
+# Grafica de frecuencia con la cantidad de correos
 fig.show()
