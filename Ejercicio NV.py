@@ -33,7 +33,7 @@ for _ in range(500000):
 
 
 # Se toman los datos almacenados en la funcion datos para hacer el analisis
-print(datos[:10])
+# print(datos[:10])
 # print (len(datos))
 
 
