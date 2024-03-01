@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Datos</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Visualización de datos, generados aleatoriamente por el script en este repositorio llamado app.py - Grupo 9</h1>
+    
+
+    <h2>Gráfica cantidad de correos por dominio.</h2>
+    <div id="grafico-dominios"></div>
+
+    <h2>Contraseñas con más de 8 caracteres, y contraseñas con menos de 8 caracteres</h2>
+    <div id="grafico-contraseñas"></div>
+
+    <script>
+        // Consumimos la API, de la URL creada en el archivo app.py
+        fetch('http://127.0.0.1:5000/ejercicioI')
+            .then(response => response.json())
+            .then(data => {
+                
+                // Proceso creación de la gráfica de dominios de correo electrónico
+                const dominios = {};
+                data.forEach(registro => {
+                    const dominio = registro.email.split('@')[1];
+                    dominios[dominio] = (dominios[dominio] || 0) + 1;
+                });
+
+                const dominiosX = Object.keys(dominios);
+                const dominiosY = Object.values(dominios);
+
+                const graficoDominios = document.getElementById('grafico-dominios');
+                Plotly.newPlot(graficoDominios, [{
+                    x: dominiosX,
+                    y: dominiosY,
+                    type: 'bar',
+                    marker: {color: 'darkturquoise'}
+                }], {
+                    title: 'Frecuencia de Dominios de Correo Electrónico',
+                    xaxis: {title: 'Dominios'},
+                    yaxis: {title: 'Cantidad de veces que aparece el dominio', type: 'log'}
+                });
+
+                // Proceso creación de la gráfica de cantidad de contraseñas de más y menos caracteres
+                let contraseñasMasDe8 = 0;
+                let contraseñasMenosDe8 = 0;
+
+                data.forEach(registro => {
+                    if (registro.password.length > 8) {
+                        contraseñasMasDe8++;
+                    } else {
+                        contraseñasMenosDe8++;
+                    }
+                });
+
+                const graficoContraseñas = document.getElementById('grafico-contraseñas');
+                Plotly.newPlot(graficoContraseñas, [{
+                    x: ['Contraseñas con más de 8 caracteres', 'Contraseñas con menos de 8 caracteres'],
+                    y: [contraseñasMasDe8, contraseñasMenosDe8],
+                    type: 'bar',
+                    //Se eligen los colores para el gráfico, para el caso de las contraseñas se deja verda para las que tienen más de 8 caracteres
+                    marker: {color: ['green', 'red']}
+                }], {
+                    title: 'Cantidad de usuarios con contraseñas de más de 8 caracteres',
+                    xaxis: {title: 'Longitud de la Contraseña'},
+                    yaxis: {title: 'Cantidad de usuarios'}
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos:', error);
+            });
+    </script>
+</body>
+</html>
